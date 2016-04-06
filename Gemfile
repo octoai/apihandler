@@ -1,0 +1,11 @@
+source 'https://rubygems.org'
+ruby '2.1.5'
+
+gem 'sinatra'
+gem 'sinatra-contrib'
+gem 'json'
+gem 'unicorn'
+gem 'ruby-kafka', '~>0.1.4'
+gem 'dotenv'
+gem 'curb'
+gem 'octocore'
