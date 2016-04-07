@@ -3,12 +3,14 @@
 ## Setup ##
 
 - Clone the repo
+- Install gems by `bundle install` in the working dir
 
 ## Start ##
 
-- run `unicorn -p 9001 -c config/unicorn.rb` from the PROJECT_DIR
-- Visit `http://127.0.0.1:9001/` and you should get a 404, because we are not listening to that path
-- It accepts `POST` on `/events` with JSON params
+Make sure you have all the basic steps of setup [listed here](http://phab.octo.ai/w/engineering/setupguide/). Everything should be up and running.
+
+- Run `./start.sh` from the PROJECT_DIR
+- It accepts `POST` on `/events` and `/update_push_token` with JSON params
 - It returns JSON response with the `eventId`. This `eventId` uniquely identifies the event across Octo. It can be used to trace an event.
 
 ## Send some events data ##

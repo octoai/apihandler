@@ -57,7 +57,7 @@ GEM
       redis (~> 3.0)
       resque (~> 1.25)
       rufus-scheduler (~> 3.0)
-    ruby-kafka (0.1.4)
+    ruby-kafka (0.3.2)
     rufus-scheduler (3.2.0)
     sinatra (1.4.7)
       rack (~> 1.5)
@@ -88,7 +88,7 @@ DEPENDENCIES
   dotenv
   json
   octocore
-  ruby-kafka (~> 0.1.4)
+  ruby-kafka (~> 0.3.2)
   sinatra
   sinatra-contrib
   unicorn
