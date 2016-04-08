@@ -41,12 +41,18 @@ class EventsApp < Sinatra::Base
     end
   end
 
+  # Handle all the /events call
   post '/events/:event_name/' do
-    process_request params['event_name']
+    instrument(:event_processing) do
+      process_request params['event_name']
+    end
   end
 
+  # Handle all the /update_push_token call
   post '/update_push_token/' do
-    process_request 'update.push_token'
+    instrument(:update_push_token) do
+      process_request 'update.push_token'
+    end
   end
 
   get '/version' do
