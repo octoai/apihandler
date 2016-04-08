@@ -21,8 +21,8 @@ module Octo
       SecureRandom.hex
     end
 
-    def generate_password(password, consumer_id)
-      Digest::SHA1.hexdigest(password + consumer_id)
+    def generate_password(salt = nil)
+      Digest::SHA1.hexdigest([SecureRandom.base64, salt].join())
     end
   end
 
@@ -41,13 +41,11 @@ module Octo
 
         # create its Authentication stuff
         auth = Octo::Authorization.new
-        auth.enterprise_id = e.id
+        auth.enterprise = e
         auth.username = e.name
         auth.apikey = generate_api_key
         auth.email = enterprise[:email]
-        auth.custom_id = e.id.to_s
-        auth.password = generate_password(enterprise[:password], e.id.to_s)
-        auth.admin = false
+        auth.password = generate_password
         auth.save!
 
         method = :put
