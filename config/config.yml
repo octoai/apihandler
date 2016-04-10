@@ -18,3 +18,10 @@ kafka:
     - 127.0.0.1:9092
   client_id: octomatic_development
   topic: events
+allowed_events:
+  - app.init
+  - app.login
+  - app.logout
+  - page.view
+  - productpage.view
+  - update.push_token
