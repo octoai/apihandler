@@ -1,6 +1,8 @@
 :clients:
   - :name: Jabong
     :email: admin@jabong.com
+    :password: user
+    :admin: false
     :rate-limiting:
       :day: 100000
       :minute: 100
@@ -10,6 +12,8 @@
       :year: 1000000000
   - :name: Octo
     :email: api@octo.ai
+    :password: admin
+    :admin: true
 :apis:
   - :name:  events
     :request_path: /events

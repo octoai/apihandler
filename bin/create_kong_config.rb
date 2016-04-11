@@ -15,20 +15,7 @@ require 'digest/sha1'
 
 module Octo
 
-  module GeneratorHelpers
-
-    def generate_api_key
-      SecureRandom.hex
-    end
-
-    def generate_password(salt = nil)
-      Digest::SHA1.hexdigest([SecureRandom.base64, salt].join())
-    end
-  end
-
   module EnterpriseGenetaor
-
-    include Octo::GeneratorHelpers
 
     def create_enterprise(enterprise)
       puts "Attempting to create new enterprise with name: #{ enterprise[:name]}"
@@ -39,13 +26,16 @@ module Octo
         e.name = enterprise[:name]
         e.save!
 
+        enterprise_id = e.id.to_s
+
         # create its Authentication stuff
         auth = Octo::Authorization.new
-        auth.enterprise = e
+        auth.enterprise_id = enterprise_id
         auth.username = e.name
-        auth.apikey = generate_api_key
         auth.email = enterprise[:email]
-        auth.password = generate_password
+        auth.custom_id = enterprise_id
+        auth.password = enterprise[:password]
+        auth.admin = enterprise[:admin]
         auth.save!
 
         method = :put
