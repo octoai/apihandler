@@ -13,6 +13,14 @@ Make sure you have all the basic steps of setup [listed here](http://phab.octo.a
 - It accepts `POST` on `/events` and `/update_push_token` with JSON params
 - It returns JSON response with the `eventId`. This `eventId` uniquely identifies the event across Octo. It can be used to trace an event.
 
+## Stop ##
+
+Run the following from PROJECT_DIR
+
+```
+kill -s QUIT `cat shared/pids/unicorn.pid`
+```
+
 ## Send some events data ##
 
 Send events in curl as 

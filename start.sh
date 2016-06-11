@@ -1,1 +1,1 @@
-bundle exec unicorn -c config/unicorn.rb
+bundle exec unicorn -c config/unicorn.rb -D
