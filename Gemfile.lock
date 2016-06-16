@@ -17,7 +17,6 @@ GEM
     cequel (1.9.0)
       activemodel (~> 4.0)
       cassandra-driver (~> 2.0)
-    curb (0.9.3)
     descriptive_statistics (2.5.1)
     dotenv (2.1.1)
     elasticsearch (1.0.17)
@@ -104,7 +103,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  curb
   dotenv
   json
   octocore
@@ -112,6 +110,3 @@ DEPENDENCIES
   sinatra
   sinatra-contrib
   unicorn
-
-BUNDLED WITH
-   1.11.2

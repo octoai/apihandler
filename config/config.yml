@@ -25,3 +25,4 @@ allowed_events:
   - page.view
   - productpage.view
   - update.push_token
+  - update.profile

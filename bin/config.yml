@@ -29,6 +29,7 @@ allowed_events:
   - page.view
   - productpage.view
   - update.push_token
+  - update.profile
 kong:
   url: 'http://127.0.0.1:8001'
 apns:

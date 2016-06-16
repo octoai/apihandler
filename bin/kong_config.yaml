@@ -21,11 +21,15 @@
   - :name:  UpdatePushToken
     :request_path: /update_push_token
     :upstream_url: http://127.0.0.1:9001/update_push_token
+  - :name: UpdateProfile
+    :request_path: /update_profile
+    :upstream_url: http://127.0.0.1:9001/update_profile
 :plugins:
   :key-auth:
     :apis:
       - :events
       - :UpdatePushToken
+      - :UpdateProfile
     :clients: all
     :config:
       :key_names: apikey
@@ -33,6 +37,7 @@
     :apis:
       - :events
       - :UpdatePushToken
+      - :UpdateProfile
     :clients: all
     :config:
       :methods: 'GET,POST'

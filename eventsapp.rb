@@ -51,6 +51,13 @@ class EventsApp < Sinatra::Base
     end
   end
 
+  # Handle all /update_profile calls
+  post '/update_profile/' do
+    instrument(:update_profile) do
+      process_request 'update.profile'
+    end
+  end
+
   # Handle all the /update_push_token call
   post '/update_push_token/' do
     instrument(:update_push_token) do
@@ -60,10 +67,10 @@ class EventsApp < Sinatra::Base
 
   get '/version' do
     {
-        :version => Octo::API::VERSION,
-        :author => Octo::API::AUTHOR,
-        :description => Octo::API::DESCRIPTION,
-        :contact => Octo::API::CONTACT
+      :version => Octo::API::VERSION,
+      :author => Octo::API::AUTHOR,
+      :description => Octo::API::DESCRIPTION,
+      :contact => Octo::API::CONTACT
     }.to_json
   end
 end
