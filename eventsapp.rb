@@ -44,6 +44,27 @@ class EventsApp < Sinatra::Base
     end
   end
 
+  # Create a product
+  post '/product/' do
+    instrument(:product_catalog) do
+      process_request 'product.add'
+    end
+  end
+
+  # modify or update product
+  patch '/product' do
+    instrument(:product_catalog) do
+      process_request 'product.update'
+    end
+  end
+
+  # delete product
+  delete '/product' do
+    instrument(:product_catalog) do
+      process_request 'product.delete'
+    end
+  end
+
   # Handle all the /events call
   post '/events/:event_name/' do
     instrument(:event_processing) do

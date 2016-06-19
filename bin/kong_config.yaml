@@ -24,12 +24,16 @@
   - :name: UpdateProfile
     :request_path: /update_profile
     :upstream_url: http://127.0.0.1:9001/update_profile
+  - :name: Product
+    :request_path: /product
+    :upstream_url: http://127.0.0.1:9001/product
 :plugins:
   :key-auth:
     :apis:
       - :events
       - :UpdatePushToken
       - :UpdateProfile
+      - :Product
     :clients: all
     :config:
       :key_names: apikey
@@ -38,9 +42,10 @@
       - :events
       - :UpdatePushToken
       - :UpdateProfile
+      - :Product
     :clients: all
     :config:
-      :methods: 'GET,POST'
+      :methods: 'GET,POST,PATCH,DELETE'
       :origin: '*'
   :rate-limiting:
     :apis:
