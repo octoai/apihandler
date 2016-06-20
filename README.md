@@ -3,6 +3,7 @@
 ## Setup ##
 
 - Clone the repo
+- Perform git submodule update as `git submodule init`
 - Install gems by `bundle install` in the working dir
 
 ## Start ##

@@ -6,7 +6,9 @@ Dotenv.load
 
 Bundler.require
 
-Octo.connect_with_config_file(File.join(Dir.pwd, 'config', 'config.yml'))
+puts File.join(Dir.pwd, 'config')
+
+Octo.connect_with(File.join(Dir.pwd, 'config'))
 
 require './eventsapp'
 run EventsApp
