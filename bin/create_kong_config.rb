@@ -138,8 +138,8 @@ module Octo
 
     class << self
 
-      def create(config_file_path)
-        @config = YAML.load_file config_file_path
+      def create(config)
+        @config = config
 
         # create APIs
         expected_api_names = @config[:apis].collect { |x| x[:name]}
@@ -184,21 +184,25 @@ end
 def help
   puts <<HELP
 Usage:
-./create_kong_config.rb path/to/kong_config.yaml
+./create_kong_config.rb path/to/config
 
-** Unable to find kong_config.yaml in current directory.
+  /path/to/config would be the path where you cloned config repo
+
+** Unable to find appropriate config dir path.
 HELP
 end
 
 if __FILE__ == $0
-  expected_file_path = File.join(File.expand_path(File.dirname(__FILE__)), 'kong_config.yaml')
-  unless File.exist?expected_file_path
+
+  expected_dir_path = File.join(File.expand_path("..", Dir.pwd), 'config')
+  unless (File.exist?expected_dir_path and File.directory?expected_dir_path)
     if ARGV.length != 1
       help
     else
-      expected_file_path = ARGV[0]
+      expected_dir_path = ARGV[0]
     end
   end
-  Octo.connect_with_config_file(File.join(Dir.pwd, 'config.yml'))
-  Octo::EnterpriseCreator.create expected_file_path
+  Octo.connect_with expected_dir_path
+  Octo::EnterpriseCreator.create Octo.get_config(:kong_config)
 end
+
