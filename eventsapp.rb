@@ -10,7 +10,6 @@ require 'ruby-kafka'
 require 'dotenv'
 Dotenv.load
 
-require 'octocore'
 require_relative 'config/version'
 
 # APIHandler App
@@ -24,6 +23,7 @@ class EventsApp < Sinatra::Base
     logger = Octo::ApiLogger.logger
     set :logger, logger
 
+    logger.info "ssss"
     kafka_config = Octo.get_config :kafka
     set kafka_bridge: Octo::KafkaBridge.new(kafka_config)
   end
