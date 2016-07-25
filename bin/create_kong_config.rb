@@ -139,6 +139,7 @@ module Octo
     class << self
 
       def create(config)
+        puts config.to_s
         @config = config
 
         # create APIs
@@ -203,6 +204,7 @@ if __FILE__ == $0
     end
   end
   Octo.connect_with expected_dir_path
+  puts Octo.curr_config
   Octo::EnterpriseCreator.create Octo.get_config(:kong_config)
 end
 
