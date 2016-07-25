@@ -88,10 +88,10 @@ class EventsApp < Sinatra::Base
 
   get '/version' do
     {
-      :version => Octo::API::VERSION,
-      :author => Octo::API::AUTHOR,
-      :description => Octo::API::DESCRIPTION,
-      :contact => Octo::API::CONTACT
+        :version => Octo::API::VERSION,
+        :author => Octo::API::AUTHOR,
+        :description => Octo::API::DESCRIPTION,
+        :contact => Octo::API::CONTACT
     }.to_json
   end
 end
