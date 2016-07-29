@@ -112,10 +112,7 @@ DEPENDENCIES
   dotenv
   json
   octocore (~> 0.0.3, >= 0.0.3)
-  ruby-kafka (~> 0.3.2)
+  ruby-kafka (= 0.3.11)
   sinatra
   sinatra-contrib
   unicorn
-
-BUNDLED WITH
-   1.11.2
