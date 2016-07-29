@@ -1,7 +1,8 @@
 sudo: required
 
 language: ruby
-  - 2.1.5p273
+rvm:
+  - "2.1.5"
 
 services:
   - docker
