@@ -1,4 +1,6 @@
-# Events Web App #
+# API Handler #
+
+[![Build Status](https://travis-ci.org/octoai/apihandler.svg?branch=master)](https://travis-ci.org/octoai/apihandler)
 
 ## Setup ##
 
