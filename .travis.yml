@@ -1,0 +1,17 @@
+sudo: required
+
+language: ruby
+rvm:
+  - "2.1.5"
+
+services:
+  - docker
+
+before_install:
+  - docker build -t tushardwivedi/apihandler .
+  - docker pull redis
+  - docker run -d --name octo-redis redis
+  - docker run -d --name octo-cass cassandra 
+  - docker run -d --name octo-handlr --link octo-redis:redis --link octo-cass:cassandra tushardwivedi/apihandler:latest
+
+script:
