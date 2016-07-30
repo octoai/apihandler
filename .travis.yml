@@ -2,16 +2,14 @@ sudo: required
 
 language: ruby
 rvm:
-  - "2.1.5"
+ - "2.1.5"
 
 services:
-  - docker
+ - docker
 
 before_install:
-  - docker build -t tushardwivedi/apihandler .
-  - docker pull redis
-  - docker run -d --name octo-redis redis
-  - docker run -d --name octo-cass cassandra 
-  - docker run -d --name octo-handlr --link octo-redis:redis --link octo-cass:cassandra tushardwivedi/apihandler:latest
+ - docker build -t tushardwivedi/apihandler:latest .
+ - docker run tushardwivedi/apihandler /bin/bash -c "bundle exec rspec"
 
 script:
+ - bundle exec rspec
