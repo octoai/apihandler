@@ -8,7 +8,7 @@
 
 ## Start ##
 
-Make sure you have all the basic steps of setup [listed here](http://phab.octo.ai/w/engineering/setupguide/). Everything should be up and running.
+Make sure you have all the basic steps of setup [listed here](https://github.com/octoai/octo.ai/wiki/Setup-Guide). Everything should be up and running.
 
 - Run `./start.sh` from the PROJECT_DIR
 - It accepts `POST` on `/events` and `/update_push_token` with JSON params
