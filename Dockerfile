@@ -13,13 +13,13 @@ RUN mkdir -p $INSTALL_PATH
 #Ensure gems are cached and only get updated when they change.
 WORKDIR /tmp
 COPY  Gemfile /tmp/Gemfile
-RUN bundle update
+COPY  Gemfile.lock /tmp/Gemfile.lock
+RUN bundle install
 
 #Copy application code from workstation to the working directory
 COPY  . $INSTALL_PATH
 
 #Entry Point commands
 WORKDIR $INSTALL_PATH
-RUN chmod 755 start.sh
-CMD ["/bin/bash", "start.sh"]
+CMD bundle exec unicorn -c config/unicorn.rb
 EXPOSE 9001

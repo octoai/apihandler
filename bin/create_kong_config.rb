@@ -18,7 +18,7 @@ module Octo
   module EnterpriseGenetaor
 
     def create_enterprise(enterprise)
-      puts "Attempting to create new enterprise with name: #{ enterprise[:name]}"
+      Octo.logger.info "Attempting to create new enterprise with name: #{ enterprise[:name]}"
       unless enterprise_name_exists?(enterprise[:name])
 
         # create enterprise
@@ -45,7 +45,7 @@ module Octo
 
         create_key_auth_config(e.name, auth.apikey)
       else
-        puts 'Not creating client as client name exists'
+        Octo.logger.warn 'Not creating client as client name exists'
       end
     end
 
@@ -58,11 +58,11 @@ module Octo
           preserve_host: false
       }
       payload.merge!api
-      puts make_kong_request method, url, payload
+      make_kong_request method, url, payload
     end
 
     def create_plugin(api_name, plugin, config = {})
-      puts "Adding Plugin #{ plugin } for api #{ api_name }"
+      Octo.logger.info "Adding Plugin #{ plugin } for api #{ api_name }"
       method = :put
       url = "/apis/#{ api_name}/plugins"
       payload = {
@@ -73,11 +73,11 @@ module Octo
         _config['config.' + k.to_s] = _config.delete(k)
       end
       payload.merge!_config
-      puts make_kong_request method, url, payload
+      make_kong_request method, url, payload
     end
 
     def create_plugin_for_client(api_name, plugin, consumer_id, config = {})
-      puts "Adding Plugin #{ plugin } for api #{ api_name }"
+      Octo.logger.info "Adding Plugin #{ plugin } for api #{ api_name } for consumer: #{ consumer_id }"
       method = :put
       url = "/apis/#{ api_name}/plugins"
       payload = { name: plugin, consumer_id: consumer_id }
@@ -86,7 +86,7 @@ module Octo
         _config['config.' + k.to_s] = _config.delete(k)
       end
       payload.merge!_config
-      puts make_kong_request method, url, payload
+      make_kong_request method, url, payload
     end
 
     private
@@ -101,32 +101,67 @@ module Octo
     end
 
     def current_consumers
-      make_kong_request :get, '/consumers/'
+      unless @current_consumers
+        make_kong_request :get, '/consumers/' do |r|
+          @current_consumers = r
+        end
+      end
+      @current_consumers
     end
 
     def current_api_names
       apis = make_kong_request :get, '/apis'
-      apis['data'].collect { |x| x['name'] }
+      apis['data'].collect { |x| x['name'] } rescue []
     end
 
     def enterprise_name_exists?(enterprise_name)
-      Octo::Enterprise.all.select { |x| x.name == enterprise_name}.length > 0
+      @enterprise_names ||= Octo::Enterprise.all
+      @enterprise_names.select { |x| x.name == enterprise_name}.length > 0
     end
 
-    def make_kong_request(method, url, payload = {})
+    def make_kong_request(method, url, payload = {}, &block)
       args = [@config[:kong] + url]
       if [:post, :put].include?method
         args << payload.to_json
-        http = Curl.public_send(method, *args ) do |http|
+        req = Curl.public_send(method, *args ) do |http|
           http.headers['Accept'] = 'application/json, text/plain, */*'
           http.headers['Content-Type'] = 'application/json;charset=UTF-8'
+          http.on_success do |data|
+            begin
+              res = JSON.parse data.body_str
+              if block?
+                yield res
+              else
+                Octo.logger.info res
+              end
+            rescue Exception => e
+              Octo.logger.error "Error in yield block: #{ e }"
+            end
+          end
+          http.on_failure do |data|
+            Octo.logger.error "Kong Request Failed: #{ data.status }, #{ data.body }"
+          end
         end
       elsif method == :get
-        http = Curl.public_send(method, *args ) do |http|
+        req = Curl.public_send(method, *args ) do |http|
           http.headers['Accept'] = 'application/json, text/plain, */*'
+          http.on_success do |data|
+            begin
+              res = JSON.parse data.body_str
+              if block
+                yield res
+              else
+                Octo.logger.info res
+              end
+            rescue Exception => e
+              Octo.logger.error "Error in yield Block: #{ e }"
+            end
+          end
+          http.on_failure do |data|
+            Octo.logger.error "Kong Request Failed: #{ data.status }, #{ data.body }"
+          end
         end
       end
-      JSON.parse(http.body_str)
     end
 
   end
@@ -139,7 +174,6 @@ module Octo
     class << self
 
       def create(config)
-        puts config.to_s
         @config = config
 
         # create APIs
@@ -195,16 +229,14 @@ end
 
 if __FILE__ == $0
 
-  expected_dir_path = File.join(File.expand_path("..", Dir.pwd), 'config')
-  unless (File.exist?expected_dir_path and File.directory?expected_dir_path)
-    if ARGV.length != 1
-      help
-    else
-      expected_dir_path = ARGV[0]
-    end
+  if ARGV.length != 1
+    help
+  else
+    STDOUT.sync = true
+    expected_dir_path = ARGV[0]
+    Octo.connect_with expected_dir_path
+    Octo::EnterpriseCreator.create Octo.get_config(:kong_config)
   end
-  Octo.connect_with expected_dir_path
-  puts Octo.curr_config
-  Octo::EnterpriseCreator.create Octo.get_config(:kong_config)
+
 end
 

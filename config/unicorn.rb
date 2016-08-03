@@ -8,7 +8,7 @@ working_directory app_dir
 worker_processes 2
 preload_app false
 timeout 30
-listen 9001
+listen "0.0.0.0:9001"
 
 # Set up socket location
 #listen "#{shared_dir}/sockets/unicorn.sock", :backlog => 64
