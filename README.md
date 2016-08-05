@@ -41,4 +41,4 @@ http://127.0.0.1:9001/events
 
 There is a handy utility provided in `/bin` which helps create initial kong setup.
 
-It should be used for the first time for kong setup. However, it does has dependencies that should be met. For a complete details, check out the [documentation here](http://phab.octo.ai/w/engineering/setupguide/).
+It should be used for the first time for kong setup. However, it does has dependencies that should be met. For a complete details, check out the [documentation here](https://github.com/octoai/octo.ai/wiki/Setup-Guide#apihandler).
