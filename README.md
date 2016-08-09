@@ -12,7 +12,7 @@
 
 Make sure you have all the basic steps of setup [listed here](https://github.com/octoai/octo.ai/wiki/Setup-Guide). Everything should be up and running.
 
-- Run `./start.sh` from the PROJECT_DIR
+- Run `bundle exec unicorn -c config/unicorn.rb --daemonize` from the PROJECT_DIR
 - It accepts `POST` on `/events` and `/update_push_token` with JSON params
 - It returns JSON response with the `eventId`. This `eventId` uniquely identifies the event across Octo. It can be used to trace an event.
 
