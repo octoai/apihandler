@@ -129,7 +129,7 @@ module Octo
           http.on_success do |data|
             begin
               res = JSON.parse data.body_str
-              if block?
+              if block_given?
                 yield res
               else
                 Octo.logger.info res
@@ -148,7 +148,7 @@ module Octo
           http.on_success do |data|
             begin
               res = JSON.parse data.body_str
-              if block
+              if block_given?
                 yield res
               else
                 Octo.logger.info res
