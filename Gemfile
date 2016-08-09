@@ -7,7 +7,7 @@ gem 'json'
 gem 'unicorn'
 gem 'ruby-kafka', '= 0.3.11'
 gem 'dotenv'
-gem 'octocore', '~> 0.0.4', '>= 0.0.4'
+gem 'octocore', '~> 0.0.5', '>= 0.0.5'
 
 group :test do
   gem 'rspec'
