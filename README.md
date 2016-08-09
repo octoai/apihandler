@@ -24,21 +24,33 @@ Run the following from PROJECT_DIR
 kill -s QUIT `cat shared/pids/unicorn.pid`
 ```
 
+# Setting up Initial Kong
+
+Kong is the API Gateway we use. It exposes Octo-matic's API to the world and it's upstream is apihandler.
+
+There is a handy utility provided in `/bin` which helps create initial kong setup.
+
+```bash
+$ bin/kong_setup.rb /path/to/config
+```
+
+It should be used for the first time for kong setup. However, it does has dependencies that should be met. For a complete details, check out the [documentation here](https://github.com/octoai/octo.ai/wiki/Setup-Guide#apihandler).
+
 ## Send some events data ##
 
 Send events in curl as 
 
 ```
-curl \
---data '{"event_name":"page.view","event_param":"12"}' \
-http://127.0.0.1:9001/events
+curl -X POST --header 'Content-Type: application/json' --header 'Accept: text/html' --header 'apikey: API_KEY' -d '{
+  "userId": 2736482,
+  "browserDetails": {
+    "name": "chrome",
+    "manufacturer": "Google",
+    "platform": "Linux",
+    "cookieid": "abc123"
+  }
+}' 'http://127.0.0.1:8000/events/app.init/'
 
 # Output/Response
 {"eventId":"eef1cafc-2199-428a-b12e-399bd6c7d75f"}
 ```
-
-# Setting up Initial Kong
-
-There is a handy utility provided in `/bin` which helps create initial kong setup.
-
-It should be used for the first time for kong setup. However, it does has dependencies that should be met. For a complete details, check out the [documentation here](https://github.com/octoai/octo.ai/wiki/Setup-Guide#apihandler).
