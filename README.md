@@ -12,7 +12,7 @@
 
 Make sure you have all the basic steps of setup [listed here](https://github.com/octoai/octo.ai/wiki/Setup-Guide). Everything should be up and running.
 
-- Run `bundle exec unicorn -c config/unicorn.rb --daemonize` from the PROJECT_DIR
+- Run `bundle exec unicorn -c config/unicorn.rb --daemonize` from the PROJECT_DIR. This will start unicorn as a background process. If you want to run unicorn in foreground just drop the `--daemonize` part. The log files are located (by default) at `PROJECT_DIR/shared/log`. You should go through `config/unicorn.rb` to view/update these details.
 - It accepts `POST` on `/events` and `/update_push_token` with JSON params
 - It returns JSON response with the `eventId`. This `eventId` uniquely identifies the event across Octo. It can be used to trace an event.
 
