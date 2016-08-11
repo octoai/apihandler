@@ -100,11 +100,10 @@ module Octo
       make_kong_request method, url, payload
     end
 
+    # Gets the current consumers listed in Kong.
     def current_consumers
-      unless @current_consumers
-        make_kong_request :get, '/consumers/' do |r|
-          @current_consumers = r
-        end
+      make_kong_request :get, '/consumers/' do |r|
+        @current_consumers = r
       end
       @current_consumers
     end
