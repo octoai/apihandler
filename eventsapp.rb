@@ -23,9 +23,10 @@ class EventsApp < Sinatra::Base
     logger = Octo::ApiLogger.logger
     set :logger, logger
 
-    logger.info "ssss"
     kafka_config = Octo.get_config :kafka
-    set kafka_bridge: Octo::KafkaBridge.new(kafka_config)
+    if kafka_config[:enabled]
+      set kafka_bridge: Octo::KafkaBridge.new(kafka_config)
+    end
   end
 
   # Include the helpers

@@ -44,6 +44,12 @@ module Octo
         make_kong_request method, url, payload
 
         create_key_auth_config(e.name, auth.apikey)
+
+        # Create key authorizaton
+        apikey = Octo::ApiKey.new
+        apikey.enterprise_key = auth.apikey
+        apikey.enterprise_id = auth.enterprise_id
+        apikey.save!
       else
         Octo.logger.warn 'Not creating client as client name exists'
       end
@@ -54,8 +60,8 @@ module Octo
       url = '/apis'
       method = :put
       payload = {
-          strip_request_path: true,
-          preserve_host: false
+        strip_request_path: true,
+        preserve_host: false
       }
       payload.merge!api
       make_kong_request method, url, payload
@@ -66,7 +72,7 @@ module Octo
       method = :put
       url = "/apis/#{ api_name}/plugins"
       payload = {
-          name: plugin
+        name: plugin
       }
       _config = config.deep_dup
       _config.keys.each do |k|
