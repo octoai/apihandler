@@ -1,5 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/config_file'
+require 'redis'
+require 'redis-queue'
 require 'securerandom'
 require 'json'
 require 'logger'
@@ -26,6 +28,14 @@ class EventsApp < Sinatra::Base
     kafka_config = Octo.get_config :kafka
     if kafka_config[:enabled]
       set kafka_bridge: Octo::KafkaBridge.new(kafka_config)
+    else
+      # Establish connection to redis server
+      default_config = {
+        host: '127.0.0.1', port: 6379
+      }
+      redis = Redis.new(Octo.get_config(:redis, default_config))
+      set redis: redis
+      set queue: Redis::Queue.new('octo', 'message', :redis => redis)
     end
   end
 
@@ -38,9 +48,9 @@ class EventsApp < Sinatra::Base
       content_type :json
     else
       halt 404, {
-          message: "Method [#{ event_name }] not allowed",
-          event_name: event_name,
-          params: params
+        message: "Method [#{ event_name }] not allowed",
+        event_name: event_name,
+        params: params
       }.to_json
     end
   end

@@ -19,6 +19,13 @@ module Octo
 
     def create_enterprise(enterprise)
       Octo.logger.info "Attempting to create new enterprise with name: #{ enterprise[:name]}"
+      redis_config = {
+        host: Octo.get_config(:redis).fetch(:host, '127.0.0.1'), 
+        port: Octo.get_config(:redis).fetch(:port, 6379)
+      }
+      # Establish connection to redis server
+      @redis = Redis.new(redis_config)
+
       unless enterprise_name_exists?(enterprise[:name])
 
         # create enterprise
@@ -50,6 +57,8 @@ module Octo
         apikey.enterprise_key = auth.apikey
         apikey.enterprise_id = auth.enterprise_id
         apikey.save!
+
+        @redis.set(apikey.enterprise_key, apikey.enterprise_id)
       else
         Octo.logger.warn 'Not creating client as client name exists'
       end
