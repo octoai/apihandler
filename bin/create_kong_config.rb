@@ -19,6 +19,13 @@ module Octo
 
     def create_enterprise(enterprise)
       Octo.logger.info "Attempting to create new enterprise with name: #{ enterprise[:name]}"
+      redis_config = {
+        host: Octo.get_config(:redis).fetch(:host, '127.0.0.1'), 
+        port: Octo.get_config(:redis).fetch(:port, 6379)
+      }
+      # Establish connection to redis server
+      @redis = Redis.new(redis_config)
+
       unless enterprise_name_exists?(enterprise[:name])
 
         # create enterprise
@@ -44,6 +51,14 @@ module Octo
         make_kong_request method, url, payload
 
         create_key_auth_config(e.name, auth.apikey)
+
+        # Create key authorizaton
+        apikey = Octo::ApiKey.new
+        apikey.enterprise_key = auth.apikey
+        apikey.enterprise_id = auth.enterprise_id
+        apikey.save!
+
+        @redis.set(apikey.enterprise_key, apikey.enterprise_id)
       else
         Octo.logger.warn 'Not creating client as client name exists'
       end
@@ -54,8 +69,8 @@ module Octo
       url = '/apis'
       method = :put
       payload = {
-          strip_request_path: true,
-          preserve_host: false
+        strip_request_path: true,
+        preserve_host: false
       }
       payload.merge!api
       make_kong_request method, url, payload
@@ -66,7 +81,7 @@ module Octo
       method = :put
       url = "/apis/#{ api_name}/plugins"
       payload = {
-          name: plugin
+        name: plugin
       }
       _config = config.deep_dup
       _config.keys.each do |k|
