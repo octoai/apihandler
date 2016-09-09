@@ -10,7 +10,7 @@ gem 'dotenv'
 gem 'curb', '~> 0.9.3', '>= 0.9.3'
 gem 'redis', '~> 3.2.2', '>= 3.2.0'
 gem 'redis-queue', '~> 0.0.4'
-gem 'octocore', '~> 0.0.6', '>= 0.0.6'
+gem 'octocore-cassandra', '~> 0.0.6', '>= 0.0.6'
 
 group :test do
   gem 'rspec'

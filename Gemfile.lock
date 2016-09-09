@@ -12,7 +12,7 @@ GEM
       tzinfo (~> 1.1)
     backports (3.6.8)
     builder (3.2.2)
-    cassandra-driver (2.1.6)
+    cassandra-driver (2.1.7)
       ione (~> 1.2)
     cequel (1.10.0)
       activemodel (~> 4.0)
@@ -46,7 +46,7 @@ GEM
     mono_logger (1.1.0)
     multi_json (1.12.1)
     multipart-post (2.0.0)
-    octocore (0.0.6)
+    octocore-cassandra (0.0.6)
       cequel (~> 1.9, >= 1.9.0)
       descriptive_statistics (~> 2.5.1, >= 2.5.0)
       elasticsearch (~> 1.0.17, >= 1.0.17)
@@ -90,7 +90,7 @@ GEM
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
       rspec-mocks (~> 3.5.0)
-    rspec-core (3.5.2)
+    rspec-core (3.5.3)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -131,7 +131,7 @@ DEPENDENCIES
   curb (~> 0.9.3, >= 0.9.3)
   dotenv
   json
-  octocore (~> 0.0.6, >= 0.0.6)
+  octocore-cassandra (~> 0.0.6, >= 0.0.6)
   redis (~> 3.2.2, >= 3.2.0)
   redis-queue (~> 0.0.4)
   rspec
@@ -139,3 +139,6 @@ DEPENDENCIES
   sinatra
   sinatra-contrib
   unicorn
+
+BUNDLED WITH
+   1.11.2
