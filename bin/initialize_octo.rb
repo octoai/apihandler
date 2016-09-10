@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 #
 #
-# This executable file is responsible for creating kong configuration
+# This executable file is responsible for creating octo configuration
 # from a provided config file.
 #
-# refer to the provided kong_config.yaml
+# refer to the provided init_config.yaml
 
 require 'yaml'
 require 'curb'
@@ -32,7 +32,7 @@ module Octo
         e.name = enterprise[:name]
         e.save!
 
-        enterprise_id = e.id.to_s
+        enterprise_id = e._id.to_s
 
         # create its Authentication stuff
         auth = Octo::Authorization.new
