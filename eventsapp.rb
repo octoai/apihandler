@@ -97,6 +97,13 @@ class EventsApp < Sinatra::Base
     end
   end
 
+  # Handle all the /custom event calls
+  post '/custom/:event_name/' do
+    instrument(:custom) do
+      process_request('custom_' + params['event_name'])
+    end
+  end
+
   get '/version' do
     {
       :version => Octo::API::VERSION,
